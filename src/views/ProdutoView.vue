@@ -1,101 +1,147 @@
-<script>
-import {ref} from 'vue';
+<script setup>
+import { ref, reactive, onMounted } from 'vue';
+
+import ProdutoList from '@/components/ProdutoList.vue';
+import Modal from '@/components/template/Modal.vue'
+
 import ProdutosApi from "@/api/produtos.js";
-import CategoriasApi from "@/api/categorias.js";
+import CategoriaApi from "@/api/categorias.js";
 import imageService from "@/api/imagem.js";
 
-const produtosApi = new ProdutosApi();
-const categoriasApi = new CategoriasApi();
-
+const categoria = ref([])
 const coverUrl = ref('')
 const file = ref(null)
+const produtoAtual = reactive({
+  nome: '',
+  descricao: '',
+  preco: 0,
+  categoria: '',
+})
 
-export default {
-  data() {
-    return {
-      produtos: [],
-      produto: {},
-      categorias: [],
-      categoria: {},
-      // coverUrl: '',
-      // file: null,
-    };
-  },
-  async created() {
-    this.produtos = await produtosApi.buscarTodosOsProdutos();
-    this.categorias = await categoriasApi.buscarTodasAsCategorias();
-  },
+function onFileChange(e) {
+  file.value = e.target.files[0]
+  coverUrl.value = URL.createObjectURL(file.value)
+}
 
-  methods: {
-    async salvar() {
-      if (this.produto.id) {
-        await produtosApi.atualizarProduto(this.produto);
-      } else {
+async function salvar() {
+  const image = await imageService.uploadImage(file.value)
+  produtoAtual.cover_attachment_key = image.attachment_key
+  await ProdutosApi.adicionarProduto(produtoAtual)
+  Object.assign(produtoAtual, {
+    id: '',
+    nome: '',
+    descricao: '',
+    preco: 0,
+    categoria: '',
+    cover_attachment_key: ''
+  })
+  showForm.value = false
+}
 
-        const imagem = await imageService.uploadImage(file.value)
+onMounted(async () => {
+  const data = await CategoriaApi.buscarTodasAsCategorias()
+  categoria.value = data
+})
 
-        await produtosApi.adicionarProduto(this.produto);
-      }
-      this.produto = {};
-      this.produtos = await produtosApi.buscarTodosOsProdutos();
-    },
-    onFileChange(e) {
-      file.value = e.target.files[0]
-      coverUrl.value = URL.createObjectURL(file.value)
-    },
-    editar(produto) {
-      Object.assign(this.produto, produto);
-    },
-    async excluir(produto) {
-      await produtosApi.excluirProduto(produto.id);
-      this.produtos = await produtosApi.buscarTodosOsProdutos();
-    },
-
-  },
-};
+const showForm = ref(false)
 </script>
 
 <template>
-  <h1>produto</h1>
-  <hr />
-  <div class="form">
-    <input type="text" v-model="produto.nome" placeholder="Nome" />
-    <input type="text" v-model="produto.descricao" placeholder="Descricão" />
-    <input type="text" v-model="produto.preco" placeholder="Preço" />
-    <select v-model="produto.categoria">
-      <option disabled value="">Selecione uma categoria</option>
-      <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.id">
-        {{ categoria.descricao }}
-      </option>
-    </select>
-    <input type="file" @change="onFileChange" />
-
-    <button @click="salvar">Salvar</button>
-  </div>
-  <hr />
-  <ul>
-    <li v-for="produto in produtos" :key="produto.id">
-      <span @click="editar(produto)">
-    <li>ID: {{ produto.id }}</li>
-    <li>
-      {{ produto.nome }}
-    </li>
-    <li>
-      {{ produto.descricao }}
-    </li>
-    <li>R$ {{ produto.preco }}</li>
-    <li>{{ produto.categoria }}</li>
-    <li>
-      <img :src="produto.imagem.file" alt="" />
-    </li>
-    </span>
-    <button @click="excluir(produto)">X</button>
-    </li>
-  </ul>
+  <h1 class="page-title">Produtos</h1>
+  <button @click="showForm = true">
+    Add
+  </button>
+  <modal :visible="showForm" @close="showForm = false">
+    <template #header>
+      <h1>Cadastro de produto</h1>
+    </template>
+    <template #body>
+      <form>
+        <div>
+          <div>
+            <input type="file" @change="onFileChange">
+            <div>
+              <img v-if="coverUrl" src="coverUrl">
+            </div>
+          </div>
+          <div>
+            <input type="text" id="nome" v-model="produtoAtual.nome" placeholder="Nome">
+          </div>
+          <div>
+            <input type="text" id="descricao" v-model="produtoAtual.descricao" placeholder="Descrição">
+          </div>
+          <div>
+            <input type="text" id="preco" v-model="produtoAtual.preco" placeholder="Preço">
+          </div>
+          <div>
+            <select v-model="produtoAtual.categoria">
+              <option disabled value="">Selecione uma categoria</option>
+              <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.id">
+                {{ categoria.descricao }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </template>
+    <template #footer>
+      <div>
+        <button @click="showForm = false"> Cancelar </button>
+        <button @click="salvar">Salvar</button>
+      </div>
+    </template>
+  </modal>
+  <ProdutoList />
 </template>
 
-<style>
+
+<style scoped>
+
 img {
   max-width: 100px;
+}
+.form {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  font-weight: bold;
+}
+
+select, button {
+  width: 100%;
+  padding: 5px;
+}
+
+.carrinho-list {
+  list-style: none;
+  padding: 0;
+}
+
+.carrinho-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin: 5px 0;
+}
+
+.carrinho-info {
+  flex: 1;
+}
+
+.carrinho-actions {
+  display: flex;
+  align-items: center;
+}
+
+.page-title {
+  color: #000; 
 }
 </style>

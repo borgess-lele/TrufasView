@@ -39,14 +39,14 @@ export default {
 </script>
 
 <template>
-  <h1>Usuário</h1>
+  <h1 class="page-title">Usuários</h1>
   <hr />
   <div class="form">
     <input type="text" v-model="usuario.nome" placeholder="Nome" />
     <input type="text" v-model="usuario.email" placeholder="Email" />
     <input type="text" v-model="usuario.telefone" placeholder="Telefone" />
     <input type="text" v-model="usuario.senha" placeholder="Senha" />
-    <input type="text" v-model="usuario.endereco_padrao" placeholder="Endereco" />
+    
     <select v-model="usuario.endereco_padrao">
       <option value="">Selecione um endereço</option>
       <option v-for="endereco of enderecos" :key="endereco.id" :value="endereco.id">
@@ -81,4 +81,53 @@ export default {
   </ul>
 </template>
 
-<style></style>
+<style scoped>
+.form {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  font-weight: bold;
+}
+
+select, button {
+  width: 100%;
+  padding: 5px;
+}
+
+.carrinho-list {
+  list-style: none;
+  padding: 0;
+}
+
+.carrinho-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin: 5px 0;
+}
+
+.carrinho-info {
+  flex: 1;
+}
+
+.carrinho-actions {
+  display: flex;
+  align-items: center;
+}
+
+.page-title {
+  color: #000; 
+}
+</style>
+
+
+
+

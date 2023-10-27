@@ -1,15 +1,16 @@
-body{
-  background-color:rgb(255, 255, 255);
+@import "./base.css";
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #FFFAFA	;
+  font-weight: normal;
 }
 
-h1{
-  color:#db1a14;
-}
-
-.cor1{
-  background-color: #07a5ee;
-}
-
-.filmes {
-  color: black;
+a,
+.green {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  transition: 0.4s;
 }

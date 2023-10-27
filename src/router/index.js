@@ -1,9 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import CarrinhoView from '../views/CarrinhoView.vue';
 import EnderecoView from '../views/EnderecoView.vue';
-import ProdutosView from '../views/ProdutoView.vue';
-import TrufasView from '../views/TrufaView.vue';
+import ProdutoView from '../views/ProdutoView.vue';
 import UsuarioView from '../views/UsuarioView.vue';
+import CategoriaView from '../views/CategoriaView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,12 +12,12 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
     },
     {
-      path: '/trufas',
-      name: 'trufas',
-      component: TrufasView,
+      path: '/carrinhos',
+      name: 'carrinhos',
+      component: CarrinhoView,
     },
     {
       path: '/enderecos',
@@ -26,14 +27,19 @@ const router = createRouter({
     {
       path: '/produtos',
       name: 'produtos',
-      component: ProdutosView,
+      component: ProdutoView,
     },
     {
       path: '/usuarios',
       name: 'usuarios',
       component: UsuarioView,
     },
-  ]
-})
+    {
+      path: '/categorias',
+      name: 'categorias',
+      component: CategoriaView,
+    }
+  ],
+});
 
-export default router
+export default router;

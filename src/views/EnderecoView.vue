@@ -33,7 +33,7 @@ export default {
 </script>
 
 <template>
-  <h1>endereco</h1>
+  <h1 class="page-title">Endereços</h1>
   <hr />
   <div class="form">
     <input type="text" v-model="endereco.numero" placeholder="Número" />
@@ -63,4 +63,49 @@ export default {
   </ul>
 </template>
 
-<style></style>
+<style scoped>
+.form {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  font-weight: bold;
+}
+
+select, button {
+  width: 100%;
+  padding: 5px;
+}
+
+.carrinho-list {
+  list-style: none;
+  padding: 0;
+}
+
+.carrinho-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin: 5px 0;
+}
+
+.carrinho-info {
+  flex: 1;
+}
+
+.carrinho-actions {
+  display: flex;
+  align-items: center;
+}
+
+.page-title {
+  color: #000; 
+}
+</style>
