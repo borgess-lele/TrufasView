@@ -1,21 +1,19 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive } from 'vue';
 
 import ProdutoList from '@/components/ProdutoList.vue';
 import Modal from '@/components/template/Modal.vue'
 
-import ProdutosApi from "@/api/produtos.js";
-import CategoriaApi from "@/api/categorias.js";
+import TrufasApi from "@/api/produtos.js";
 import imageService from "@/api/imagem.js";
 
-const categoria = ref([])
 const coverUrl = ref('')
 const file = ref(null)
-const produtoAtual = reactive({
+const trufasAtual = reactive({
   nome: '',
   descricao: '',
   preco: 0,
-  categoria: '',
+  quantidade: '',
 })
 
 function onFileChange(e) {
@@ -25,9 +23,9 @@ function onFileChange(e) {
 
 async function salvar() {
   const image = await imageService.uploadImage(file.value)
-  produtoAtual.cover_attachment_key = image.attachment_key
-  await ProdutosApi.adicionarProduto(produtoAtual)
-  Object.assign(produtoAtual, {
+  trufasAtual.cover_attachment_key = image.attachment_key
+  await TrufasApi.adicionarTrufa(trufasAtual)
+  Object.assign(trufasAtual, {
     id: '',
     nome: '',
     descricao: '',
@@ -38,22 +36,17 @@ async function salvar() {
   showForm.value = false
 }
 
-onMounted(async () => {
-  const data = await CategoriaApi.buscarTodasAsCategorias()
-  categoria.value = data
-})
-
 const showForm = ref(false)
 </script>
 
 <template>
-  <h1 class="page-title">Produtos</h1>
+  <h1 class="page-title">Trufas</h1>
   <button @click="showForm = true">
     Add
   </button>
   <modal :visible="showForm" @close="showForm = false">
     <template #header>
-      <h1>Cadastro de produto</h1>
+      <h1>Cadastro de Trufas</h1>
     </template>
     <template #body>
       <form>
@@ -65,21 +58,16 @@ const showForm = ref(false)
             </div>
           </div>
           <div>
-            <input type="text" id="nome" v-model="produtoAtual.nome" placeholder="Nome">
+            <input type="text" id="nome" v-model="trufasAtual.nome" placeholder="Nome">
           </div>
           <div>
-            <input type="text" id="descricao" v-model="produtoAtual.descricao" placeholder="Descrição">
+            <input type="text" id="descricao" v-model="trufasAtual.descricao" placeholder="Descrição">
           </div>
           <div>
-            <input type="text" id="preco" v-model="produtoAtual.preco" placeholder="Preço">
+            <input type="text" id="preco" v-model="trufasAtual.preco" placeholder="Preço">
           </div>
           <div>
-            <select v-model="produtoAtual.categoria">
-              <option disabled value="">Selecione uma categoria</option>
-              <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.id">
-                {{ categoria.descricao }}
-              </option>
-            </select>
+            <input type="text" id="quantidade" v-model="trufasAtual.quantidade" placeholder="quantidade">
           </div>
         </div>
       </form>
@@ -116,29 +104,6 @@ label {
 select, button {
   width: 100%;
   padding: 5px;
-}
-
-.carrinho-list {
-  list-style: none;
-  padding: 0;
-}
-
-.carrinho-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border: 1px solid #ddd;
-  margin: 5px 0;
-}
-
-.carrinho-info {
-  flex: 1;
-}
-
-.carrinho-actions {
-  display: flex;
-  align-items: center;
 }
 
 .page-title {

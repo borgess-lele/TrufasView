@@ -1,21 +1,16 @@
 <script>
 import UsuariosApi from "@/api/usuarios";
 const usuariosApi = new UsuariosApi();
-import EnderecosApi from "@/api/enderecos";
-const enderecosApi = new EnderecosApi();
 
 export default {
   data() {
     return {
       usuarios: [],
       usuario: {},
-      enderecos: [],
-      endereco: {},
     };
   },
   async created() {
     this.usuarios = await usuariosApi.buscarTodosOsUsuarios();
-    this.enderecos = await enderecosApi.buscarTodosOsEnderecos();
   },
   methods: {
     async salvar() {
@@ -42,17 +37,10 @@ export default {
   <h1 class="page-title">Usuários</h1>
   <hr />
   <div class="form">
-    <input type="text" v-model="usuario.nome" placeholder="Nome" />
     <input type="text" v-model="usuario.email" placeholder="Email" />
-    <input type="text" v-model="usuario.telefone" placeholder="Telefone" />
     <input type="text" v-model="usuario.senha" placeholder="Senha" />
-    
-    <select v-model="usuario.endereco_padrao">
-      <option value="">Selecione um endereço</option>
-      <option v-for="endereco of enderecos" :key="endereco.id" :value="endereco.id">
-        {{ endereco.cep }}
-      </option>
-    </select>
+    <input type="text" v-model="usuario.confirmacaodesenha" placeholder="Confirmação de Senha" />
+
     <button @click="salvar">Salvar</button>
   </div>
   <hr />

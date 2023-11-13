@@ -2,11 +2,8 @@
   <div>
     <header class="menu">
       <router-link class="menu-item" :to="{ name: 'home' }"> Home </router-link> 
-      <router-link class="menu-item" to="/enderecos"> Endereços </router-link>
       <router-link class="menu-item" to="/usuarios"> Usuários</router-link>
-      <router-link class="menu-item" to="/categorias"> Categorias</router-link>
-      <router-link class="menu-item" to="/carrinhos"> Carrinhos </router-link>
-      <router-link class="menu-item" to="/produtos"> Produtos </router-link>
+      <router-link class="menu-item" to="/trufas"> Trufas </router-link>
     </header>
     <main>
       <RouterView />
