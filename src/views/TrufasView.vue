@@ -4,8 +4,8 @@ import { ref, reactive } from 'vue';
 import ProdutoList from '@/components/ProdutoList.vue';
 import Modal from '@/components/template/Modal.vue'
 
-import TrufasApi from "@/api/produtos.js";
-import imageService from "@/api/imagem.js";
+import TrufasApi from "../api/produtos.js";
+import imageService from "../api/imagem.js";
 
 const coverUrl = ref('')
 const file = ref(null)
@@ -28,7 +28,7 @@ async function salvar() {
   Object.assign(trufasAtual, {
     id: '',
     nome: '',
-    descricao: '',
+    // descricao: '',
     preco: 0,
     categoria: '',
     cover_attachment_key: ''
@@ -54,14 +54,14 @@ const showForm = ref(false)
           <div>
             <input type="file" @change="onFileChange">
             <div>
-              <img v-if="coverUrl" src="coverUrl">
+              <img v-if="coverUrl" :src="coverUrl">
             </div>
           </div>
           <div>
             <input type="text" id="nome" v-model="trufasAtual.nome" placeholder="Nome">
           </div>
           <div>
-            <input type="text" id="descricao" v-model="trufasAtual.descricao" placeholder="Descrição">
+            <!-- <input type="text" id="descricao" v-model="trufasAtual.descricao" placeholder="Descrição"> -->
           </div>
           <div>
             <input type="text" id="preco" v-model="trufasAtual.preco" placeholder="Preço">

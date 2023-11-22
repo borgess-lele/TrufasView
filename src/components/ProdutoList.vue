@@ -6,7 +6,7 @@ import produtosApi from '@/api/produtos'
 const produtos = ref([])
 
 onMounted(async () => {
-  const data = await produtosApi.buscarTodosOsProdutos()
+  const data = await produtosApi.buscarTodosAsTrufas()
   produtos.value = data
 })
 </script>
@@ -14,7 +14,7 @@ onMounted(async () => {
 <template>
   <div class="row wrap">
     <div v-for="produto in produtos" :key="produto.id" class="card">
-      <img :src="produto.imagem.file" :alt="produto.nome" />
+      <img :src="produto.imagem.url" :alt="produto.nome" />
       <div class="produto-detail">
         <h3>{{ produto.nome }}</h3>
         <div class="produto-year-rating">
