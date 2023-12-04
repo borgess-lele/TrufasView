@@ -23,12 +23,13 @@ function onFileChange(e) {
 
 async function salvar() {
   const image = await imageService.uploadImage(file.value)
-  trufasAtual.cover_attachment_key = image.attachment_key
-  await TrufasApi.adicionarTrufa(trufasAtual)
+  console.log(image)
+  trufasAtual.capa_attachment_key = image.attachment_key
+  await TrufasApi.adicionarTrufa(trufasAtual, image)
   Object.assign(trufasAtual, {
     id: '',
+    descricao: '',
     nome: '',
-    // descricao: '',
     preco: 0,
     categoria: '',
     cover_attachment_key: ''
@@ -59,6 +60,9 @@ const showForm = ref(false)
           </div>
           <div>
             <input type="text" id="nome" v-model="trufasAtual.nome" placeholder="Nome">
+          </div>
+          <div>
+            <input type="text" id="descricao" v-model="trufasAtual.descricao" placeholder="Descrição">
           </div>
           <div>
             <!-- <input type="text" id="descricao" v-model="trufasAtual.descricao" placeholder="Descrição"> -->

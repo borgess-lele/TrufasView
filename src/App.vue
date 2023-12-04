@@ -2,7 +2,6 @@
   <div>
     <header class="menu">
       <router-link class="menu-item" :to="{ name: 'home' }"> Home </router-link> 
-      <router-link class="menu-item" to="/usuarios"> Usuários</router-link>
       <router-link class="menu-item" to="/trufas"> Trufas </router-link>
     </header>
     <main>

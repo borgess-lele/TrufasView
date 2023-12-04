@@ -9,15 +9,16 @@ class TrufaApi {
     // const { data } = await axios.get('/produto/');
     // return data;
   }
-  async adicionarTrufa(trufa) {
+  async adicionarTrufa(trufa, image) {
     let response;
+    trufa.capa_attachment_key = image.attachment_key
     if (trufa.id) {
       response = await api.put(`/trufas/${trufa.id}/`, trufa);
     } else {
       response = await api.post("/trufas/", trufa);
     }
     // const { data } = await axios.post('/produto/', produto);
-    // return data;
+    return response;
   }
   // async atualizarProduto(produto) {
   //   const { data } = await axios.put(`/produto/${produto.id}/`, produto);
