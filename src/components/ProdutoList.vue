@@ -51,28 +51,32 @@ const deletarProduto = async (id) => {
 <style scoped>
 .card {
   width: 200px;
-  height: 400px;
+  height: 300px;
   margin: 10px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 5px;
-  box-shadow: 0 0 5px #ccc;
-  display: flex;
+  box-shadow: 0 0 5px #000000;
+  display:flex;
   flex-direction: column;
-  justify-content: space-between;
+
 }
 
 .produto-detail p {
   margin: 0;
+  color:#000000;
 }
 
 .produto-year-rating {
   display: flex;
-  column-gap: 2rem;
+  column-gap: 1rem;
+  color:#000000;
+
 }
 
 .produto-detail h3 {
   margin: 0;
   font-size: 1.2rem;
+  color:#000000
 }
 </style>

@@ -16,12 +16,12 @@
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
-  color: #fff;
+  color: #000000;
 }
 
 .menu-item {
   text-decoration: none;
-  color: #fdfdfd;
+  color: #000000;
   font-weight: bold;
   margin: 0 10px;
 }
